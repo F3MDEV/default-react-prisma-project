@@ -1,12 +1,28 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createStore, applyMiddleware, compose} from 'redux';
+import allReducers from './store';
+import {Provider} from 'react-redux';
+import thunk from "redux-thunk";
+/* eslint-disable no-underscore-dangle */
+
+const composeEnhancer : any = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  allReducers,
+  composeEnhancer(applyMiddleware(thunk))
+);
+/* eslint-enable */
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
